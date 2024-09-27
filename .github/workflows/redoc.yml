@@ -19,22 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: build doc
-        run: npx redoc-cli bundle https://bitbucket.org/medicalinformatics/mainzelliste/raw/development/resources/Mainzelliste.OpenApi.Spec.yaml -o mainzelliste-api.yml
-      - name: move index.html
-        run: mv mainzelliste-api.html index.html
-      # use the public name of the action
-#      - name: redoc-cli test
-#        uses: seeebiii/redoc-cli-github-action@v8
-#        with:
-#          args: 'bundle https://bitbucket.org/medicalinformatics/mainzelliste/raw/development/resources/Mainzelliste.OpenApi.Spec.yaml -o mainzelliste-api.yml'
-#      - name: check result
-#        run: |
-#          ls -al
-#          test -f mainzelliste-api.html || (echo "Missing mainzelliste-api.html from previous step." && exit 1)
+        run: npx @redocly/cli build-docs https://bitbucket.org/medicalinformatics/mainzelliste/raw/development/resources/Mainzelliste.OpenApi.Spec.yaml -o openapi/mainzelliste-api.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./openapi
   # Deployment job
   deploy:
     environment:
